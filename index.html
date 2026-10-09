@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Babylon.js Flappy Bird — Asset Integration PoC</title>
+    <meta name="description" content="A feature-rich Flappy Bird clone built with Babylon.js evaluating external 2D/3D asset pipelines, sprite animations, and parallax environments." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="app-container">
+      <!-- Header Bar -->
+      <header id="game-header">
+        <div class="header-left">
+          <span class="badge">Babylon.js PoC</span>
+          <h1>Flappy Wings 3D</h1>
+        </div>
+        <div class="header-controls">
+          <button id="btn-sound-toggle" class="icon-btn" title="Ton an/aus" aria-label="Ton an/aus">
+            <span id="sound-icon">🔊</span>
+          </button>
+          <button id="btn-theme-toggle" class="icon-btn" title="Modus: 2.5D / 3D Pipes" aria-label="3D Pipes Toggle">
+            <span id="theme-icon">🪐 3D Pipes</span>
+          </button>
+          <button id="btn-info" class="icon-btn" title="Asset Pipeline Info" aria-label="Asset Pipeline Info">
+            ℹ️
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Game Canvas Container -->
+      <main id="game-viewport">
+        <canvas id="renderCanvas"></canvas>
+
+        <!-- Live Score Display during game -->
+        <div id="live-score-container" class="hidden">
+          <div id="live-score-value">0</div>
+        </div>
+
+        <!-- Start / Character Selection Overlay -->
+        <div id="start-overlay" class="overlay active">
+          <div class="card glass-panel hero-card">
+            <div class="card-glow"></div>
+            <div class="card-header">
+              <h2 class="arcade-title">FLAPPY WINGS</h2>
+              <p class="subtitle">Babylon.js Asset Integration & Physics Benchmark</p>
+            </div>
+
+            <!-- Character Selector -->
+            <div class="character-select-section">
+              <label class="section-label">Wähle deinen Charakter:</label>
+              <div class="character-grid" id="character-grid">
+                <!-- Character cards injected by TypeScript -->
+              </div>
+            </div>
+
+            <div class="instructions-box">
+              <div class="key-hint">
+                <span class="key-badge">LEERTASTE</span>
+                <span class="key-badge">KLICK</span>
+                <span class="key-badge">TAP</span>
+              </div>
+              <p>Fliege durch die Röhren ohne anzustoßen!</p>
+            </div>
+
+            <div class="action-buttons">
+              <button id="btn-start-game" class="btn btn-primary pulse-btn">
+                <span>SPIEL STARTEN</span>
+                <span class="btn-arrow">▶</span>
+              </button>
+            </div>
+
+            <div class="best-score-preview">
+              <span>Bester Highscore: </span>
+              <strong id="start-best-score">0</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Game Over Overlay -->
+        <div id="gameover-overlay" class="overlay hidden">
+          <div class="card glass-panel gameover-card">
+            <div class="card-glow danger-glow"></div>
+            <h2 class="arcade-title danger-text">GAME OVER</h2>
+
+            <div class="score-summary-board">
+              <div class="summary-item">
+                <span class="label">Punkte</span>
+                <span id="summary-score" class="score-large">0</span>
+              </div>
+              <div class="summary-divider"></div>
+              <div class="summary-item">
+                <span class="label">Highscore</span>
+                <span id="summary-best" class="score-large best">0</span>
+              </div>
+            </div>
+
+            <div id="medal-container" class="medal-box hidden">
+              <span id="medal-icon" class="medal-badge">🏅</span>
+              <span id="medal-label" class="medal-text">Silbermedaille</span>
+            </div>
+
+            <div class="action-buttons">
+              <button id="btn-restart" class="btn btn-primary pulse-btn">
+                <span>NOCHMAL SPIELEN</span>
+                <span class="btn-arrow">🔄</span>
+              </button>
+              <button id="btn-change-character" class="btn btn-secondary">
+                <span>Charakter wechseln</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Asset Pipeline Info Modal -->
+        <div id="info-modal" class="overlay hidden">
+          <div class="card glass-panel info-card">
+            <div class="modal-header">
+              <h3>🎨 Babylon.js Asset-Integration PoC</h3>
+              <button id="btn-close-info" class="icon-btn close-btn">✕</button>
+            </div>
+            <div class="modal-body">
+              <div class="info-block">
+                <h4>1. Externe Sprites & Animationen</h4>
+                <p>Eingebundene Charaktere aus <code>FlyingBambam</code> (Alien, Drache, Wespe) sowie dem Unity Side-Scroller Art Kit (Blauer Vogel). Frames werden als Billboard-Meshes mit animierten Texturen und UV-Mapping in Echtzeit dargestellt.</p>
+              </div>
+              <div class="info-block">
+                <h4>2. Parallax-Umgebung & 3D Tiefe</h4>
+                <p>Multi-Layer Parallax Scrolling (Himmel, ferne Berge, Wolken, vordere Hügel, Büsche, Boden) mit Tiefenversatz (Z-Achse) und kontinuierlichem Textur-Scroll in der Babylon.js Render-Loop.</p>
+              </div>
+              <div class="info-block">
+                <h4>3. 3D Meshes & Shader-Materialien</h4>
+                <p>Umschaltbar zwischen 3D Röhren mit PBR/Standard-Materialien & dynamischem Glanzlicht und klassischen 2D Textur-Röhren.</p>
+              </div>
+              <div class="info-block">
+                <h4>4. Partikelsystem & Audio</h4>
+                <p>Dynamische Babylon.js Partikelsysteme für Flügelschlag-Aura, Münzen-Explosionen und Crash-Effekte. Räumliches Audio mit Toneffekten aus FlappyFlyBird.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Footer Info -->
+      <footer id="game-footer">
+        <p>Entwickelt für IGA / Babylon.js Lehre & PoC Evaluation • Submodul <code>artifacts/consumers/education/ts-flappybird-babylonjs</code></p>
+      </footer>
+    </div>
+
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>
