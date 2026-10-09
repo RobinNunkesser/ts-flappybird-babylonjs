@@ -11,6 +11,7 @@ export interface CharacterConfig {
   height: number;
   particleColor: [number, number, number];
   description: string;
+  is3D?: boolean;
 }
 
 export interface PipePair {

@@ -63,6 +63,18 @@ window.addEventListener("DOMContentLoaded", () => {
       card.appendChild(previewBox);
       card.appendChild(nameLabel);
 
+      if (char.is3D) {
+        const tag = document.createElement("span");
+        tag.className = "char-tag tag-3d";
+        tag.textContent = "3D";
+        card.appendChild(tag);
+      } else if (char.id === "steampunk_owl") {
+        const tag = document.createElement("span");
+        tag.className = "char-tag tag-ai";
+        tag.textContent = "KI 2D";
+        card.appendChild(tag);
+      }
+
       card.addEventListener("click", () => {
         selectedCharId = char.id;
         game.setCharacter(char);

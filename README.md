@@ -26,12 +26,14 @@
 
 ## 🕹️ Spielbare Charaktere
 
-| Charakter | Herkunft | Frames | Besonderheit | Signatur-Partikel |
-| :--- | :--- | :---: | :--- | :--- |
-| **Classic Bird** | 2D Sidescroller Art Kit | 3 | Agiler Flieger, klassisches Arcade-Gefühl | Cyan / Blau |
-| **Alien** | `FlyingBambam` | 4 | Kosmischer Springer, crispe Pixel-Art | Neon-Grün |
-| **Dragon** | `FlyingBambam` | 4 | Mächtiger Gleiter mit hoher visueller Präsenz | Flammendes Orange |
-| **Wasp** | `FlyingBambam` | 4 | Schnelle Flügelschlag-Frequenz | Goldenes Gelb |
+| Charakter | Herkunft | Art / Pipeline | Frames | Besonderheit | Signatur-Partikel |
+| :--- | :--- | :--- | :---: | :--- | :--- |
+| **Classic Bird** | 2D Sidescroller Art Kit | 2D Sprite Plane | 3 | Agiler Flieger, klassisches Arcade-Gefühl | Cyan / Blau |
+| **Steampunk-Kauz** | **Weg B: KI-Prompt** | **2D KI-Spritesheet** | 4 | Diffusions-Modell via Prompt generiert, per Python segmentiert | Goldenes Bernstein / Messing |
+| **Cyber-Drohne** | **Weg A: Code-Prompt** | **3D Prozedural-Mesh** | ∞ | Vollwertiges Babylon.js 3D-Modell mit Gelenkschwingen & Plasmajet | Neon-Cyan Plasma |
+| **Dragon** | `FlyingBambam` | 2D Sprite Plane | 4 | Mächtiger Gleiter mit hoher visueller Präsenz | Flammendes Orange |
+| **Alien** | `FlyingBambam` | 2D Sprite Plane | 4 | Kosmischer Springer, crispe Pixel-Art | Neon-Grün |
+| **Wasp** | `FlyingBambam` | 2D Sprite Plane | 4 | Schnelle Flügelschlag-Frequenz | Goldenes Gelb |
 
 ---
 
