@@ -1,7 +1,9 @@
 # ts-flappybird-babylonjs
 
 > **Babylon.js Flappy Bird Clone & Asset-Integration Proof of Concept (PoC)**  
-> Entwickelt für das Lehrgebiet Interaktive Grafikanwendungen (IGA) und zur Evaluation von agentenbasierten Asset-Pipelines in Babylon.js.
+> Entwickelt für das Lehrgebiet Interaktive Grafikanwendungen (IGA) und zur Evaluation von agentenbasierten Asset-Pipelines in Babylon.js.  
+>  
+> 🌐 **Live Demo (GitHub Pages)**: [https://robinnunkesser.github.io/ts-flappybird-babylonjs/](https://robinnunkesser.github.io/ts-flappybird-babylonjs/)
 
 ---
 

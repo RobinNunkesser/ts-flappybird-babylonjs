@@ -146,8 +146,8 @@ window.addEventListener("DOMContentLoaded", () => {
   // User input handling (Spacebar, Up, Click, Tap)
   const handleJumpAction = (e?: Event) => {
     if (e) {
-      if (e.target instanceof HTMLElement && e.target.closest("button, .character-card, .overlay a")) {
-        return; // Don't trigger flap when clicking buttons
+      if (e.target instanceof HTMLElement && e.target.closest("button, .character-card, .overlay a, .modal-card, #game-header")) {
+        return; // Don't trigger flap when clicking buttons or modal controls
       }
       e.preventDefault();
     }
@@ -167,7 +167,9 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  canvas.addEventListener("pointerdown", (e: PointerEvent) => {
+  // Comprehensive touch & pointer response across canvas and viewport
+  const viewport = document.getElementById("game-viewport")!;
+  viewport.addEventListener("pointerdown", (e: PointerEvent) => {
     handleJumpAction(e);
   });
 
