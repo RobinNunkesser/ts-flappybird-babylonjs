@@ -43,6 +43,19 @@ export const CHARACTERS: CharacterConfig[] = [
     description: "Weg B: KI-generiertes 2D-Spritesheet (Pixel-Art im Freiflug ohne Ast)"
   },
   {
+    id: "hshl_logo",
+    name: "HSHL 3D-Logo",
+    previewUrl: "./assets/characters/hshl_preview.png",
+    frameUrls: [],
+    frameDurationMs: 60,
+    hitRadius: 0.46,
+    width: 1.45,
+    height: 0.9,
+    particleColor: [0.0, 0.62, 0.89],
+    description: "Offizielles HSHL 3D-Logo — Akkordeon-Flug mit CI-Farben & 3D-Schwebung",
+    is3D: true
+  },
+  {
     id: "cyber_drone",
     name: "Cyber-Drohne (3D)",
     previewUrl: "./assets/characters/drone_preview.png",
@@ -129,6 +142,11 @@ export class CharacterController {
   private flameRight: Mesh | null = null;
   private wingFlapPhase: number = 0;
 
+  // HSHL 3D Logo components
+  private hshlLeftGroup: Mesh | null = null;
+  private hshlRightGroup: Mesh | null = null;
+  private hshlFlapPhase: number = 0;
+
   constructor(scene: Scene, initialConfig: CharacterConfig = CHARACTERS[0]) {
     this.scene = scene;
     this.currentConfig = initialConfig;
@@ -171,12 +189,18 @@ export class CharacterController {
       this.hindwingRight = null;
       this.flameLeft = null;
       this.flameRight = null;
+      this.hshlLeftGroup = null;
+      this.hshlRightGroup = null;
     }
   }
 
   public buildMesh() {
     if (this.currentConfig.is3D) {
-      this.build3DProceduralDrone();
+      if (this.currentConfig.id === "hshl_logo") {
+        this.build3DHshlLogo();
+      } else {
+        this.build3DProceduralDrone();
+      }
     } else {
       this.build2DSpritePlane();
     }
@@ -216,6 +240,101 @@ export class CharacterController {
     this.planeMesh.position.set(0, 0, 0);
     this.currentFrameIndex = 0;
     this.animationTimerMs = 0;
+  }
+
+  // --- Offizielles HSHL 3D-Logo (CI-Konform: Blau & Gelb) ---
+  private build3DHshlLogo() {
+    this.root3D = new Mesh("playerRoot3DHshl", this.scene);
+
+    // HSHL CI-Materialien mit edlem Glanz
+    const matBlue = new StandardMaterial("matHshlBlue", this.scene);
+    matBlue.diffuseColor = new Color3(0.0, 0.624, 0.890); // #009FE3
+    matBlue.specularColor = new Color3(0.7, 0.9, 1.0);
+    matBlue.specularPower = 36;
+    matBlue.emissiveColor = new Color3(0.02, 0.12, 0.18);
+
+    const matYellow = new StandardMaterial("matHshlYellow", this.scene);
+    matYellow.diffuseColor = new Color3(0.996, 0.800, 0.0); // #FECC00
+    matYellow.specularColor = new Color3(1.0, 0.95, 0.6);
+    matYellow.specularPower = 36;
+    matYellow.emissiveColor = new Color3(0.20, 0.16, 0.0);
+
+    // Skalierungsfaktor für Flappy Bird Dimensionen (Original 64x32x16 Raster)
+    const scale = 0.024;
+    const depth = 16 * scale; // 0.384
+
+    // Linke Gruppe (HSHL Blau)
+    this.hshlLeftGroup = new Mesh("hshlLeftGroup", this.scene);
+    this.hshlLeftGroup.parent = this.root3D;
+
+    // 1. Linker Vertikaler Schenkel: (-23.5, 0, 0), Box (17, 32, 16)
+    const leftLeg = MeshBuilder.CreateBox(
+      "hshl_left_leg",
+      { width: 17 * scale, height: 32 * scale, depth },
+      this.scene
+    );
+    leftLeg.position.set(-23.5 * scale, 0, 0);
+    leftLeg.material = matBlue;
+    leftLeg.parent = this.hshlLeftGroup;
+
+    // 2. Linker Oberer Balken: (-8.5, 9.5, 0), Box (13, 13, 16)
+    const leftTop = MeshBuilder.CreateBox(
+      "hshl_left_top",
+      { width: 13 * scale, height: 13 * scale, depth },
+      this.scene
+    );
+    leftTop.position.set(-8.5 * scale, 9.5 * scale, 0);
+    leftTop.material = matBlue;
+    leftTop.parent = this.hshlLeftGroup;
+
+    // 3. Linker Unterer Balken: (-8.5, -10.0, 0), Box (13, 12, 16)
+    const leftBottom = MeshBuilder.CreateBox(
+      "hshl_left_bottom",
+      { width: 13 * scale, height: 12 * scale, depth },
+      this.scene
+    );
+    leftBottom.position.set(-8.5 * scale, -10.0 * scale, 0);
+    leftBottom.material = matBlue;
+    leftBottom.parent = this.hshlLeftGroup;
+
+    // Rechte Gruppe (HSHL Gelb)
+    this.hshlRightGroup = new Mesh("hshlRightGroup", this.scene);
+    this.hshlRightGroup.parent = this.root3D;
+
+    // 4. Rechter Vertikaler Schenkel: (23.5, 0, 0), Box (17, 32, 16)
+    const rightLeg = MeshBuilder.CreateBox(
+      "hshl_right_leg",
+      { width: 17 * scale, height: 32 * scale, depth },
+      this.scene
+    );
+    rightLeg.position.set(23.5 * scale, 0, 0);
+    rightLeg.material = matYellow;
+    rightLeg.parent = this.hshlRightGroup;
+
+    // 5. Rechter Oberer Balken: (8.5, 9.5, 0), Box (13, 13, 16)
+    const rightTop = MeshBuilder.CreateBox(
+      "hshl_right_top",
+      { width: 13 * scale, height: 13 * scale, depth },
+      this.scene
+    );
+    rightTop.position.set(8.5 * scale, 9.5 * scale, 0);
+    rightTop.material = matYellow;
+    rightTop.parent = this.hshlRightGroup;
+
+    // 6. Rechter Unterer Balken: (8.5, -10.0, 0), Box (13, 12, 16)
+    const rightBottom = MeshBuilder.CreateBox(
+      "hshl_right_bottom",
+      { width: 13 * scale, height: 12 * scale, depth },
+      this.scene
+    );
+    rightBottom.position.set(8.5 * scale, -10.0 * scale, 0);
+    rightBottom.material = matYellow;
+    rightBottom.parent = this.hshlRightGroup;
+
+    // 3D Präsentation: Schrägansicht damit volumetrische Kanten und Tiefe wirken
+    this.root3D.rotation.y = -0.40;
+    this.root3D.rotation.x = 0.22;
+    this.hshlFlapPhase = 0;
   }
 
   // --- Weg A / Hochdetaillierter 3D Cyberpunk Drone Beetle ---
@@ -481,27 +600,54 @@ export class CharacterController {
 
   public updateAnimation(deltaMs: number, isDivingFast: boolean = false) {
     if (this.currentConfig.is3D) {
-      // 3D Procedural Multi-Wing Animation
       const deltaSec = deltaMs / 1000;
-      const flapSpeed = isDivingFast ? 16 : 30; // High-frequency cyber buzzing
-      this.wingFlapPhase += deltaSec * flapSpeed;
 
-      const flapAngle = Math.sin(this.wingFlapPhase) * 0.72;
-      const hindFlapAngle = Math.sin(this.wingFlapPhase - 0.45) * 0.62;
+      if (this.currentConfig.id === "hshl_logo") {
+        // HSHL 3D-Logo: Dynamisches Akkordeon & Schwebung
+        const flapSpeed = isDivingFast ? 14 : 20;
+        this.hshlFlapPhase += deltaSec * flapSpeed;
 
-      // Forewings flap in counter-oscillation
-      if (this.forewingLeft) this.forewingLeft.rotation.x = 0.25 + flapAngle;
-      if (this.forewingRight) this.forewingRight.rotation.x = -0.25 - flapAngle;
+        const flapAngle = Math.sin(this.hshlFlapPhase) * 0.28;
+        const rollAngle = Math.cos(this.hshlFlapPhase * 0.5) * 0.12;
 
-      // Hindwings flap with harmonic phase delay
-      if (this.hindwingLeft) this.hindwingLeft.rotation.x = 0.30 + hindFlapAngle;
-      if (this.hindwingRight) this.hindwingRight.rotation.x = -0.30 - hindFlapAngle;
+        if (this.hshlLeftGroup) {
+          this.hshlLeftGroup.rotation.z = flapAngle;
+          this.hshlLeftGroup.rotation.y = -flapAngle * 0.6;
+          this.hshlLeftGroup.position.y = Math.sin(this.hshlFlapPhase) * 0.03;
+        }
 
-      // Dynamic twin plasma flame flickering
-      const baseFlameScale = isDivingFast ? 0.65 : 1.15;
-      const flicker = baseFlameScale * (0.85 + Math.random() * 0.3);
-      if (this.flameLeft) this.flameLeft.scaling.x = flicker;
-      if (this.flameRight) this.flameRight.scaling.x = flicker * (0.95 + Math.random() * 0.1);
+        if (this.hshlRightGroup) {
+          this.hshlRightGroup.rotation.z = -flapAngle;
+          this.hshlRightGroup.rotation.y = flapAngle * 0.6;
+          this.hshlRightGroup.position.y = -Math.sin(this.hshlFlapPhase) * 0.03;
+        }
+
+        // Sanftes 3D-Taumeln für lebendige Lichtreflexe auf den CI-Quadern
+        if (this.root3D) {
+          this.root3D.rotation.y = -0.40 + rollAngle;
+        }
+      } else {
+        // 3D Procedural Multi-Wing Animation (Drohne)
+        const flapSpeed = isDivingFast ? 16 : 30; // High-frequency cyber buzzing
+        this.wingFlapPhase += deltaSec * flapSpeed;
+
+        const flapAngle = Math.sin(this.wingFlapPhase) * 0.72;
+        const hindFlapAngle = Math.sin(this.wingFlapPhase - 0.45) * 0.62;
+
+        // Forewings flap in counter-oscillation
+        if (this.forewingLeft) this.forewingLeft.rotation.x = 0.25 + flapAngle;
+        if (this.forewingRight) this.forewingRight.rotation.x = -0.25 - flapAngle;
+
+        // Hindwings flap with harmonic phase delay
+        if (this.hindwingLeft) this.hindwingLeft.rotation.x = 0.30 + hindFlapAngle;
+        if (this.hindwingRight) this.hindwingRight.rotation.x = -0.30 - hindFlapAngle;
+
+        // Dynamic twin plasma flame flickering
+        const baseFlameScale = isDivingFast ? 0.65 : 1.15;
+        const flicker = baseFlameScale * (0.85 + Math.random() * 0.3);
+        if (this.flameLeft) this.flameLeft.scaling.x = flicker;
+        if (this.flameRight) this.flameRight.scaling.x = flicker * (0.95 + Math.random() * 0.1);
+      }
     } else {
       // 2D Sprite Frame Cycle
       if (!this.material || this.textures.length <= 1) return;
@@ -533,8 +679,14 @@ export class CharacterController {
   public setRotation(angleRad: number) {
     if (this.root3D) {
       this.root3D.rotation.z = angleRad;
-      // Banking reaction: pitch tilts roll slightly towards camera
-      this.root3D.rotation.x = 0.28 + angleRad * 0.15;
+      if (this.currentConfig.id === "hshl_logo") {
+        // Eindrehen bei Steigen / Sinken für dynamische 3D-Präsenz
+        this.root3D.rotation.x = 0.22 + angleRad * 0.14;
+        this.root3D.rotation.y = -0.40 + angleRad * 0.18;
+      } else {
+        // Banking reaction: pitch tilts roll slightly towards camera
+        this.root3D.rotation.x = 0.28 + angleRad * 0.15;
+      }
     }
     if (this.planeMesh) {
       this.planeMesh.rotation.z = angleRad;

@@ -29,6 +29,7 @@
 | Charakter | Herkunft | Art / Pipeline | Frames | Besonderheit | Signatur-Partikel |
 | :--- | :--- | :--- | :---: | :--- | :--- |
 | **Classic Bird** | 2D Sidescroller Art Kit | 2D Sprite Plane | 3 | Agiler Flieger, klassisches Arcade-Gefühl | Cyan / Blau |
+| **HSHL 3D-Logo** | **IGA HSHL-3D-Demo** | **3D CI-Mesh** | ∞ | 6-Quader-CI-Mesh (Blau/Gelb) mit Akkordeon-Flug & 3D-Schwebung | HSHL Blau (#009FE3) |
 | **Steampunk-Kauz** | **Weg B: KI-Prompt** | **2D KI-Spritesheet** | 4 | Diffusions-Modell via Prompt generiert, per Python segmentiert | Goldenes Bernstein / Messing |
 | **Cyber-Drohne** | **Weg A: Code-Prompt** | **3D Prozedural-Mesh** | ∞ | Vollwertiges Babylon.js 3D-Modell mit Gelenkschwingen & Plasmajet | Neon-Cyan Plasma |
 | **Dragon** | `FlyingBambam` | 2D Sprite Plane | 4 | Mächtiger Gleiter mit hoher visueller Präsenz | Flammendes Orange |

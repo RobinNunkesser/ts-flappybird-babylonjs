@@ -63,7 +63,12 @@ window.addEventListener("DOMContentLoaded", () => {
       card.appendChild(previewBox);
       card.appendChild(nameLabel);
 
-      if (char.is3D) {
+      if (char.id === "hshl_logo") {
+        const tag = document.createElement("span");
+        tag.className = "char-tag tag-hshl";
+        tag.textContent = "HSHL 3D";
+        card.appendChild(tag);
+      } else if (char.is3D) {
         const tag = document.createElement("span");
         tag.className = "char-tag tag-3d";
         tag.textContent = "3D";
