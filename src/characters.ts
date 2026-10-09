@@ -126,7 +126,7 @@ export class CharacterController {
         url,
         this.scene,
         true, // noMipmap
-        false, // invertY
+        true, // invertY: true ensures sprite renders right side up
         Texture.NEAREST_SAMPLINGMODE
       );
       tex.hasAlpha = true;

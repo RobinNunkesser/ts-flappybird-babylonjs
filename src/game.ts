@@ -59,8 +59,8 @@ export class FlappyGame {
     this.scene.clearColor = new Color4(0.04, 0.06, 0.1, 1.0);
 
     // Camera setup
-    this.camera = new TargetCamera("mainCamera", new Vector3(0, 0.2, -13.5), this.scene);
-    this.camera.setTarget(new Vector3(0, 0.2, 0));
+    this.camera = new TargetCamera("mainCamera", new Vector3(0, 0.0, -13.5), this.scene);
+    this.camera.setTarget(new Vector3(0, 0.0, 0));
     this.camera.fov = 0.72; // ~41 degrees vertical FOV
     this.originalCameraPos = this.camera.position.clone();
 

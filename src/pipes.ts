@@ -43,11 +43,11 @@ export class PipeManager {
     this.mat3DRim.emissiveColor = new Color3(0.08, 0.35, 0.16);
 
     // 2D Sprite Material
-    const tex2D = new Texture("./assets/environment/Obstacle.png", this.scene, true, false);
+    const tex2D = new Texture("./assets/environment/Obstacle.png", this.scene, true, true);
     this.mat2D = new StandardMaterial("matPipe2D", this.scene);
     this.mat2D.diffuseTexture = tex2D;
     this.mat2D.useAlphaFromDiffuseTexture = true;
-    this.mat2D.emissiveColor = new Color3(0.3, 0.3, 0.3);
+    this.mat2D.emissiveColor = new Color3(0.5, 0.5, 0.5);
     this.mat2D.backFaceCulling = false;
 
     // Coin Material
@@ -80,13 +80,13 @@ export class PipeManager {
   }
 
   private getRandomGapY(): number {
-    // Gap centered between -1.8 and +2.2
-    return -1.8 + Math.random() * 4.0;
+    // Gap centered between -1.5 and +2.0
+    return -1.5 + Math.random() * 3.5;
   }
 
   private createPipePair(x: number, gapY: number) {
-    const topYLimit = 7.0;
-    const botYLimit = -4.5;
+    const topYLimit = 5.5;
+    const botYLimit = -4.1;
 
     // Top pipe geometry
     const topPipeHeight = topYLimit - (gapY + this.gapHeight / 2);
